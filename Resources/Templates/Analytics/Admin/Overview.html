@@ -1,0 +1,60 @@
+#define(css):
+\#analytics-overview svg {
+    color: \#fa3ebe;
+}
+\#analytics-overview .bar-chart {
+    background: \#21a9ff;
+    background: -webkit-linear-gradient(to right, \#12c2e9, \#21a9ff);
+    background: linear-gradient(to right, \#12c2e9, \#21a9ff);
+    color: \#000;
+}
+@media (prefers-color-scheme: dark) {
+    \#analytics-overview svg {
+        color: \#21a9ff;
+    }
+    \#analytics-overview .bar-chart {
+        background: \#f80759;
+        background: -webkit-linear-gradient(to right, \#f80759, \#fa3ebe);
+        background: linear-gradient(to right, \#f80759, \#fa3ebe);
+        color: \#fff;
+    }
+}
+#enddefine
+
+#define(toolbarCenter):
+    Analytics
+#enddefine
+
+#define(body):
+
+<div id="analytics-overview" class="m">
+    
+        <div class="p:l r:s c:background:secondary m:b">
+            <span>#svg("eye", class: "block s64 m:h:auto c:link:primary")</span>
+            <h3 class="m:t t:center">Total page views</h3>
+            <p class="h1 m:t:zero t:center">#(totalPageViews)</p>
+        </div>
+
+        #for(metric in metrics):
+        <div class="p:l r:s c:background:secondary m:b">
+            <span class="t:center">#svg(metric.icon, class: "block s64 m:h:auto")</span>
+            <h3 class="t:center">#(metric.name)</h3>
+            <ul class="list:off p:zero">
+            #for(group in metric.groups):
+                <li class="m:b:s">
+                    <div class="g2" style="grid-template-columns: 1fr 32px;">
+                        <div class="g:col1">#(group.name) &middot; #(group.count)</div>
+                        <div class="g:col1 t:right">#(group.percent)%</div>
+                    </div>
+                    <span class="block r:xs bar-chart" style="width: #(group.percent)%;">
+                        <span class="p:s"></span>
+                    </span>
+                </li>
+            #endfor
+            </ul>
+        </div>
+        #endfor
+</div>
+#enddefine
+
+#inline("Admin/Index")

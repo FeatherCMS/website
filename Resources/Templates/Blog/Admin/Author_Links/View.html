@@ -1,0 +1,26 @@
+#let(authorId = Request(parameter: "id"))
+
+#let(detail = [
+    "title": "Link",
+    "key": "blog.author.links",
+    "list": [
+        "title": "Links",
+        "url": "/admin/blog/authors/" + authorId + "/links/"
+    ]
+])
+#define(details):
+    <dl class="t:center">
+        <dt>Id</dt>
+        <dd class="m:h:zero m:b">#(model.id)</dd>
+        
+        <dt>Label</dt>
+        <dd class="m:h:zero m:b">#(model.label)</dd>
+        
+        <dt>URL</dt>
+        <dd class="m:h:zero m:b">#(model.url)</dd>
+
+        <dt>Priority</dt>
+        <dd class="m:h:zero m:b">#(model.priority)</dd>
+    </dl>
+#enddefine
+#inline("Admin/Detail")

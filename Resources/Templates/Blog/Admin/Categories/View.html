@@ -1,0 +1,30 @@
+#let(detail = [
+    "title": "Category",
+    "key": "blog.categories",
+    "list": [
+        "title": "Categories",
+        "url": "/admin/blog/categories/"
+    ]
+])
+#define(details):
+    <dl class="t:center">
+        <dt>Id</dt>
+        <dd class="m:h:zero m:b">#(model.id)</dd>
+
+        <dt>Image</dt>
+        <dd class="m:h:zero m:b"><img src="#(model.imageKey.resolve() ?? "/images/placeholder.jpg")" class="s256"></dd>
+
+        <dt>Title</dt>
+        <dd class="m:h:zero m:b">#(model.title)</dd>
+        
+        <dt>Excerpt</dt>
+        <dd class="m:h:zero m:b">#(model.excerpt)</dd>
+
+        <dt>Color</dt>
+        <dd class="m:h:zero m:b">#(model.color)</dd>
+        
+        <dt>Priority</dt>
+        <dd class="m:h:zero m:b">#(model.priority)</dd>
+    </dl>
+#enddefine
+#inline("Admin/Detail")

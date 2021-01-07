@@ -1,0 +1,43 @@
+#let(table = [
+    "title": "Logs",
+    "create": false,
+    "key": "analytics.logs"
+])
+
+#define(css):
+@media (min-width: 600px) {
+    tr {
+        grid-template-columns: 1fr 200px;
+    }
+}
+#enddefine
+#define(th):
+    #var(link = nil)
+    <th class="td:left m:h:s">#(link = ["key": "path"])#inline("Admin/SortLink")</th>
+    <th class="td:left m:h:s">#(link = ["key": "date", "default": true, "sort": "desc"])#inline("Admin/SortLink")</th>
+#enddefine
+#define(tr):
+    #for(item in list.items):
+<tr>
+    <td class="td:left m:h:s">
+        #if(UserHasPermission(table.key + ".get")):
+            <a href="#($req.url.path)#(item.id)/">#(item.path)</a>
+        #else:
+            #(item.path)
+        #endif
+    </td>
+    <td class="td:left m:h:s">
+        #if(UserHasPermission(table.key + ".get")):
+            <a href="#($req.url.path)#(item.id)/">
+                #Date(timeStamp: item.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)
+            </a>
+        #else:
+            #Date(timeStamp: item.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)
+        #endif
+    </td>
+</tr>
+    #endfor
+#enddefine
+
+#inline("Admin/BaseTable")
+

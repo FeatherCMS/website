@@ -1,0 +1,27 @@
+#let(form = [
+    "id": formId,
+    "token": formToken,
+    "title": "redirect",
+    "key": "redirect.redirects",
+    "modelId": modelId,
+    "list": [
+        "title": "Redirects",
+        "url": "/admin/redirect/redirects/"
+    ]
+])
+
+
+#define(fields):
+    #var(field = nil)
+
+    #(field = ["id": "source", "required": true, "data": fields.source])
+    #inline("Admin/Fields/Text")
+
+    #(field = ["id": "destination", "required": true, "data": fields.destination])
+    #inline("Admin/Fields/Text")
+
+    #(field = ["id": "statusCode", "label": "Status Code", "data": fields.statusCode])
+    #inline("Admin/Fields/Selection")
+
+#enddefine
+#inline("Admin/Form")

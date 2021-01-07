@@ -1,0 +1,69 @@
+#define(css):
+tr {
+    grid-template-columns: 1fr;
+}
+@media (min-width: 600px) {
+    tr {
+        #if(UserHasPermission("file.browser.delete")):
+        grid-template-columns: 64px 1fr 96px 64px;
+        #else:
+        grid-template-columns: 64px 1fr 96px;
+        #endif
+    }
+}
+#enddefine
+
+#define(toolbarCenter):
+    File browser
+#enddefine
+#define(toolbarLeft):
+    <a href="#($req.url.path)">#svg("home")</a>
+#enddefine
+#define(toolbarRight):
+    #if(UserHasPermission("file.browser.create")):
+        <a href="#($req.url.path.trimLast())directory/?key=#Request(query: "key")">#svg("folder-plus")</a>
+        <a href="#($req.url.path.trimLast())upload/?key=#Request(query: "key")">#svg("arrow-up-circle")</a>
+    #endif
+#enddefine
+
+#define(body):
+<h5 class="m:h m:v:zero">#svg("folder") &nbsp; /#(current.key ?? "")</h5>
+<table class="m">
+    <thead>
+        <tr>
+            <th class="td:center td:hidden td:compact:hidden">Icon</th>
+            <th class="td:left m:h:s td:compact:hidden">Key</th>
+            <th class="td:center td:compact:hidden">View</th>
+            #if(UserHasPermission("file.browser.delete")):
+            <th class="td:center td:compact:hidden">Delete</th>
+            #endif
+        </tr>
+    </thead>
+    <tbody>
+        #if(parent != nil):
+        <tr>
+            <td class="td:left m:h:s"><a href="#($req.url.path)?key=#(parent.key)">#if(parent.ext == nil):#svg("folder")#elseif(["png", "jpg", "jpeg"].contains(parent.ext)):<img src="#(parent.key.resolve())">#else:#svg("file")#endif</a></td>
+            <td class="td:left m:h:s td:separator"><a href="#($req.url.path)?key=#(parent.key)">..</a></td>
+            <th class="td:center">&nbsp;</th>
+            #if(UserHasPermission("file.browser.delete")):
+            <th class="td:center">&nbsp;</th>
+            #endif
+        </tr>
+        #endif
+
+        #for(item in children):
+    <tr>
+        <td class="td:left m:h:s"><a href="#($req.url.path)?key=#(item.key)">#if(item.ext == nil):#svg("folder")#elseif(["png", "jpg", "jpeg"].contains(item.ext)):<img src="#(item.key.resolve())">#else:#svg("file")#endif</a></td>
+        <td class="td:left m:h:s td:separator"><a href="#($req.url.path)?key=#(item.key)">#(item.name)</a></td>
+        <td class="td:center">#if(item.ext != nil):<a href="#(item.key.resolve())" target="_blank">#svg("eye")</a>#else:&nbsp;#endif</td>
+        #if(UserHasPermission("file.browser.delete")):
+        <td class="td:center"><a href="#($req.url.path.trimLast())delete/?key=#(item.key)&cancel=#($req.url.path)?key=#Request(query: "key")">#svg("trash")</a></td>
+        #endif
+    </tr>
+        #endfor
+    </tbody>
+</table>
+
+#enddefine
+#inline("Admin/Index")
+

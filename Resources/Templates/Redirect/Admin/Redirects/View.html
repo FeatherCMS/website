@@ -1,0 +1,25 @@
+#let(detail = [
+    "title": "Redirect",
+    "key": "redirect.redirects",
+    "list": [
+        "title": "Redirects",
+        "url": "/admin/redirect/redirects/"
+    ]
+])
+#define(details):
+    <dl class="t:center">
+        <dt>Id</dt>
+        <dd class="m:h:zero m:b">#(model.id)</dd>
+
+        <dt>Source</dt>
+        <dd class="m:h:zero m:b">#(model.source)</dd>
+        
+        <dt>Destination</dt>
+        <dd class="m:h:zero m:b">#(model.destination)</dd>
+
+        <dt>Status code</dt>
+        <dd class="m:h:zero m:b">#(model.statusCode)</dd>
+        
+    </dl>
+#enddefine
+#inline("Admin/Detail")

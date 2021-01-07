@@ -1,0 +1,13 @@
+#let(authorId = Request(parameter: "id"))
+
+#let(delete = [
+    "id": formId,
+    "token": formToken,
+    "context": model.name,
+    "type": "link",
+    "list": [
+        "title": "Links",
+        "url": "/admin/blog/authors/" + authorId + "/links/"
+    ]
+])
+#inline("Admin/Delete")

@@ -1,0 +1,80 @@
+#let(head = [
+    "title": post.title,
+    "description": post.excerpt,
+    "css": post.metadata.css,
+    "js": post.metadata.js
+])
+#define(body):
+
+<article id="post">
+    <div class="content">
+        <header class="m">
+            <p>
+                #for(category in post.categories):
+                <span class="c:underline:accent"#if(category.color != nil): style="border-color: #(category.color);"#endif>#(category.title)</span>
+                &middot;
+                #endfor
+                #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
+                <time datetime="#(dateString)">#(dateString)</time>
+            </p>
+            <h1 class="m:t">#(post.title)</h1>
+            <p>#(post.excerpt)</p>
+        </header>
+    </div>
+
+    <div class="content:full">
+        <section class="m">
+            <img
+                class="block r:xs w:full"
+                style="box-shadow: 0 8px 38px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.12);"
+                src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
+        </section>
+    </div>
+
+    <div id="content" class="content:full">
+        #(post.content)
+    </div>
+
+</article>
+
+#if($system.variables["blog.post.share.isEnabled"] != nil && $system.variables["blog.post.share.isEnabled"] == "true"):
+<div class="content t:center">
+    <section id="share" class="m:xl">
+        <hr>
+        <p>#($system.variables["blog.post.share.link.prefix"] ?? "") <a href="https://twitter.com/intent/tweet?via=#($system.variables["blog.post.share.author'"] ?? "")&hashtags=#($system.variables["blog.post.share.hashtags"] ?? "")&url=#($app.baseUrl)#($req.url.path)" target="_blank">#($system.variables["blog.post.share.link"] ?? "Share on Twitter")</a> #($system.variables["blog.post.share.link.suffix"] ?? "")</p>
+    </section>
+</div>
+#endif
+
+#if($system.variables["blog.post.author.box.isEnabled"] != nil && $system.variables["blog.post.author.box.isEnabled"] == "true"):
+    #if(!post.authors.isEmpty()):
+    <div class="content">
+        <section class="m">
+            <h2>Author#if(post.authors.count() > 1):s#endif</h2>
+            #for(author in post.authors):
+            <div class="g311 g:gap:zero m:b" style="justify-items: center; align-items: center;">
+                
+                <div class="g:col1">
+                    <img class="s128 r:circular" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
+                </div>
+                <div class="g:col2">
+                    <h3 class="m:t:s">#(author.name)</h3>
+                    <p>#(author.bio)</p>
+                    #for(link in author.links):
+                    <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
+                    #endfor
+                    </p>
+                </div>
+                
+            </div>
+            #endfor
+        </section>
+    </div>
+    #endif
+#endif
+
+#($system.variables["blog.post.footer"] ?? "")
+
+#enddefine
+#inline("Frontend/Index")
+

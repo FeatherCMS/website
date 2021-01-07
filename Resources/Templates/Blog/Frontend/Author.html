@@ -1,0 +1,29 @@
+#let(head = [
+    "title": author.name,
+    "description": author.bio,
+    "css": author.metadata.css,
+    "js": author.metadata.js
+])
+#define(body):
+
+<div id="posts" class="m">
+    <header class="t:center m:b:xl">
+        <img class="s128 r:circular" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
+        <h1 class="m:t">#(head.title)</h1>
+        <p>#(head.description)</p>
+        #for(link in author.links):
+        <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
+        #endfor
+        <p><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
+    </header>
+
+    <div class="g321 g:gap:col g:gap:row:xl">
+        #for(post in posts):
+            #let(size = 1)
+            #inline("Blog/Frontend/SinglePost")
+        #endfor
+    </div>
+</div>
+
+#enddefine
+#inline("Frontend/Index")

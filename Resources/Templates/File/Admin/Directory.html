@@ -1,0 +1,34 @@
+#define(toolbarCenter):
+    Create directory
+#enddefine
+#define(toolbarLeft):
+    <button type="submit" form="file-directory-form">#svg("save")</button>
+#enddefine
+#define(breadcrumb):
+    <li><a href="#($req.url.path.trimLast())/browser">File browser</a></li>
+#enddefine
+#define(body):
+<div id="file-directory" class="content">
+    
+    <form id="file-directory-form" class="m" method="post" action="#($req.url.path)">
+        #var(field = nil)
+        
+        #(field = ["id": "formId", "value": formId])
+        #inline("Admin/Fields/Hidden")
+        
+        #(field = ["id": "formToken", "value": formToken])
+        #inline("Admin/Fields/Hidden")
+
+        #(field = ["id": "key", "value": Request(query: "key") ?? fields.key.value])
+        #inline("Admin/Fields/Hidden")
+
+        #(field = ["id": "name", "required": true, "data": fields.name])
+        #inline("Admin/Fields/Text")
+        
+        #(field = ["label": "Create directory"])
+        #inline("Admin/Fields/Button")
+    </form>
+</div>
+#enddefine
+
+#inline("Admin/Index")

@@ -1,0 +1,43 @@
+#let(form = [
+    "id": formId,
+    "token": formToken,
+    "title": "Post",
+    "key": "blog.posts",
+    "modelId": modelId,
+    "multipart": true,
+    "list": [
+        "title": "Posts",
+        "url": "/admin/blog/posts/"
+    ]
+])
+
+#define(toolbarRightBefore):
+    #if(metadata != nil):
+    <a href="/admin/frontend/metadatas/#(metadata.id)/update/">#svg("feather")</a>
+    #endif
+#enddefine
+
+#define(fields):
+    #var(field = nil)
+
+    #(field = ["id": "image", "class": "large", "data": fields.image, "accept": "image/jpeg"])
+    #inline("Admin/Fields/File")
+
+    #(field = ["id": "title", "required": true, "data": fields.title])
+    #inline("Admin/Fields/Text")
+
+    #(field = ["id": "excerpt", "size": "s", "data": fields.excerpt])
+    #inline("Admin/Fields/Textarea")
+
+    #(field = ["id": "content", "size": "xl", "data": fields.content])
+    #inline("Admin/Fields/Textarea")
+
+    #(field = ["id": "categories", "data": fields.categories])
+    #inline("Admin/Fields/Checkbox")
+
+    #(field = ["id": "authors", "data": fields.authors])
+    #inline("Admin/Fields/Checkbox")
+
+#enddefine
+
+#inline("Admin/Form")

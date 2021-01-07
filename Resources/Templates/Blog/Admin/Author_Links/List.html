@@ -1,0 +1,13 @@
+#let(table = [
+    "title": "Author links",
+    "key": "blog.author.links",
+    "field": [
+        "key": "label"
+    ]
+])
+
+#define(toolbarRight):
+    <a href="/admin/blog/authors/#Request(parameter: "id")">#svg("user")</a>
+#enddefine
+
+#inline("Admin/Table")

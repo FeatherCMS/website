@@ -1,0 +1,11 @@
+#let(delete = [
+    "id": formId,
+    "token": formToken,
+    "context": model.source,
+    "type": "redirect",
+    "list": [
+        "title": "Redirects",
+        "url": "/admin/redirect/redirects/"
+    ]
+])
+#inline("Admin/Delete")

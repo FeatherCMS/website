@@ -1,0 +1,35 @@
+#let(detail = [
+    "title": "Log",
+    "key": "analytics.logs",
+    "edit": false,
+    "delete": false,
+    "list": [
+        "title": "Logs",
+        "url": "/admin/analytics/logs/"
+    ]
+])
+#define(details):
+    <dl class="t:center">
+        <dt>Id</dt>
+        <dd class="m:h:zero m:b">#(model.id)</dd>
+
+        <dt>Path</dt>
+        <dd class="m:h:zero m:b">#(model.path)</dd>
+
+        
+        
+        <dt>Date</dt>
+        <dd class="m:h:zero m:b">#Date(timeStamp: model.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)</dd>
+
+        <dt>Language, region</dt>
+        <dd class="m:h:zero m:b">#(model.language), #(model.region)</dd>
+
+        <dt>Browser</dt>
+        <dd class="m:h:zero m:b">#(model.browser.name), #(model.browser.version)</dd>
+        
+        <dt>Operating system</dt>
+        <dd class="m:h:zero m:b">#(model.os.name), #(model.os.version)</dd>
+
+    </dl>
+#enddefine
+#inline("Admin/Detail")

@@ -1,0 +1,87 @@
+#let(table = [
+    "title": "Categories",
+    "key": "blog.categories"
+])
+
+#var(columns = "64px 1fr 128px")
+#var(actions = 0)
+#if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
+    #(columns += " 64px")
+    #(actions += 1)
+#endif
+#if((table.delete ?? true) && UserHasPermission(table.key + ".delete")):
+    #(columns += " 64px")
+    #(actions += 1)
+#endif
+
+#define(css):
+tr {
+    grid-template-columns: 1fr 1fr;
+}
+@media (min-width: 600px) {
+    tr {
+        grid-template-columns: #(columns);
+    }
+}
+#enddefine
+
+#define(th):
+    #var(link = nil)
+    <th class="td:center td:compact:hidden">Image</th>
+    <th class="td:left m:h:s td:compact:col2">
+        #(link = ["key": "title", "default": true])
+        #inline("Admin/SortLink")
+    </th>
+    <th class="td:left m:h:s td:compact:col2">
+        #(link = ["key": "priority"])
+        #inline("Admin/SortLink")
+    </th>
+
+    #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
+    <th class="td:center td:compact:hidden">Edit</th>
+    #endif
+    
+    #if((table.delete ?? true) && UserHasPermission(table.key + ".delete")):
+    <th class="td:center td:compact:hidden">Drop</th>
+    #endif
+
+#enddefine
+
+#define(tr):
+    #for(item in list.items):
+    <tr>
+        <td class="td:center td:compact:col2">
+            <a href="#($req.url.path)#(item.id)/"><img class="s64 r:s" src="#(item.imageKey.resolve() ?? "/images/placeholder.jpg")" alt="#(item.title)"></a>
+        </td>
+
+        <td class="td:left m:h:s td:compact:col2">
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">#(item.title)</a>
+            #else:
+                #(item.title)
+            #endif
+        </td>
+        <td class="td:left m:h:s td:compact:col2 td:compact:separator">
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">#(item.priority)</a>
+            #else:
+                #(item.priority)
+            #endif
+        </td>
+        
+        #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
+        <td class="td:center#if(actions < 2): td:compact:col2#endif">
+            <a href="#($req.url.path)#(item.id)/update">#svg("edit-2")</a>
+        </td>
+        #endif
+
+        #if((table.delete ?? true) && UserHasPermission(table.key + ".delete")):
+        <td class="td:center#if(actions < 2): td:compact:col2#endif">
+            <a href="#($req.url.path)#(item.id)/delete/">#svg("trash")</a>
+        </td>
+        #endif
+    </tr>
+    #endfor
+#enddefine
+
+#inline("Admin/BaseTable")

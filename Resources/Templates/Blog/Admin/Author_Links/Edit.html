@@ -1,0 +1,35 @@
+#let(authorId = Request(parameter: "id"))
+
+#let(form = [
+    "id": formId,
+    "token": formToken,
+    "title": "Link",
+    "key": "blog.links",
+    "modelId": modelId,
+    "multipart": true,
+    "list": [
+        "title": "Links",
+        "url": "/admin/authors/" + authorId + "/links/"
+    ]
+])
+
+#define(toolbarRightBefore):
+    <a href="/admin/blog/authors/#(authorId)">#svg("user")</a>
+#enddefine
+
+#define(fields):
+    <input type="hidden" name="authorId" value="#(authorId)">
+    #var(field = nil)
+
+    #(field = ["id": "label", "required": true, "data": fields.label])
+    #inline("Admin/Fields/Text")
+
+    #(field = ["id": "url", "required": true, "data": fields.url])
+    #inline("Admin/Fields/Text")
+
+    #(field = ["id": "priority", "required": true, "data": fields.priority])
+    #inline("Admin/Fields/Text")
+
+#enddefine
+
+#inline("Admin/Form")

@@ -1,0 +1,46 @@
+#let(head = [
+    "title": $system.variables["blog.home.page.title"],
+    "description": $system.variables["blog.home.page.description"],
+    "css": metadata.css,
+    "js": metadata.js
+
+])
+#define(css):
+.post-cell {
+    grid-column: span 6;
+}
+@media screen and (min-width: 600px) {
+    .post-cell {
+        grid-column: span 3;
+    }
+    .post-cell-1 {
+        grid-column: span 6;
+    }
+}
+@media screen and (min-width: 900px) {
+    .post-cell {
+        grid-column: span 2;
+    }
+    .post-cell-1, .post-cell-2 {
+        grid-column: span 3;
+    }
+}
+
+#enddefine
+#define(body):
+<div id="home" class="m">
+    <header class="t:center m:b:xl">
+        <h1 class="m:t">#(head.title)</h1>
+        <p>#(head.description)</p>
+    </header>
+
+    <div class="g6 g:gap:col g:gap:row:xl">
+    #for((index, post) in posts):
+        #var(size = 1)
+        #var(class = "post-cell post-cell-" + index + 1)
+        #inline("Blog/Frontend/SinglePost")
+    #endfor
+    </div>
+</div>
+#enddefine
+#inline("Frontend/Index")

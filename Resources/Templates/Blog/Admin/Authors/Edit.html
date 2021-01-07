@@ -1,0 +1,37 @@
+#let(form = [
+    "id": formId,
+    "token": formToken,
+    "title": "Author",
+    "key": "blog.authors",
+    "modelId": modelId,
+    "multipart": true,
+    "list": [
+        "title": "Authors",
+        "url": "/admin/blog/authors/"
+    ]
+])
+
+#define(toolbarRightBefore):
+    #if(modelId != nil):
+    <a href="/admin/blog/authors/#(modelId)/links/">#svg("link-2")</a>
+    #endif
+    #if(metadata != nil):
+    <a href="/admin/frontend/metadatas/#(metadata.id)/update/">#svg("feather")</a>
+    #endif
+#enddefine
+
+#define(fields):
+    #var(field = nil)
+
+    #(field = ["id": "image", "class": "circular", "data": fields.image, "required": true, "accept": "image/jpeg"])
+    #inline("Admin/Fields/File")
+
+    #(field = ["id": "name", "required": true, "data": fields.name])
+    #inline("Admin/Fields/Text")
+
+    #(field = ["id": "bio", "size": "s", "data": fields.bio])
+    #inline("Admin/Fields/Textarea")
+
+#enddefine
+
+#inline("Admin/Form")
