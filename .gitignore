@@ -10,4 +10,5 @@ db.sqlite
 .env.development
 .env.testing
 ./feather
+/Public/assets/
 ssh
