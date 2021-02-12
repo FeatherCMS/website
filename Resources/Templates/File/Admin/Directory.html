@@ -1,16 +1,23 @@
-#define(toolbarCenter):
-    Create directory
+#let(key = Request(query: "key") ?? fields.key.value)
+
+#define(title):
+Create directory
 #enddefine
-#define(toolbarLeft):
-    <button type="submit" form="file-directory-form">#svg("save")</button>
-#enddefine
+
 #define(breadcrumb):
-    <li><a href="#($req.url.path.trimLast())/browser">File browser</a></li>
+    <li><a href="#($req.url.path.trimLast())browser/?key=#(key)">File browser</a></li>
 #enddefine
+
 #define(body):
-<div id="file-directory" class="content">
     
-    <form id="file-directory-form" class="m" method="post" action="#($req.url.path)">
+<div class="container">
+
+    <header class="margin-bottom">
+        <h1 class="margin-top-zero">Create directory</h1>
+        <p class="margin-top-zero">Destination: <a href="#($req.url.path.trimLast())browser/?key=#(key)">/#(key)</a></p>
+    </header>
+    
+    <form id="file-directory-form" method="post" action="#($req.url.path)">
         #var(field = nil)
         
         #(field = ["id": "formId", "value": formId])
@@ -19,15 +26,16 @@
         #(field = ["id": "formToken", "value": formToken])
         #inline("Admin/Fields/Hidden")
 
-        #(field = ["id": "key", "value": Request(query: "key") ?? fields.key.value])
+        #(field = ["id": "key", "value": key])
         #inline("Admin/Fields/Hidden")
 
         #(field = ["id": "name", "required": true, "data": fields.name])
         #inline("Admin/Fields/Text")
         
-        #(field = ["label": "Create directory"])
+        #(field = ["label": "Create directory", "class": "shadow"])
         #inline("Admin/Fields/Button")
     </form>
+
 </div>
 #enddefine
 

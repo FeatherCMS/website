@@ -27,33 +27,40 @@
 
 #define(body):
 
-<div id="analytics-overview" class="m">
-    
-        <div class="p:l r:s c:background:secondary m:b">
-            <span>#svg("eye", class: "block s64 m:h:auto c:link:primary")</span>
-            <h3 class="m:t t:center">Total page views</h3>
-            <p class="h1 m:t:zero t:center">#(totalPageViews)</p>
+<div id="analytics-overview" class="container">
+
+    <header class="margin-bottom">
+        <h1 class="margin-top-zero">Analytics</h1>
+        <p class="margin-top-zero">Overview</p>
+    </header>
+    <section>
+
+        <div class="padding border-radius-s background margin-bottom border-xs border-color-2">
+            <span>#svg("eye", class: "size")</span>
+            <h2 class="margin-top-zero">Total page views</h2>
+            <p class="h1 margin-top-zero margin-bottom-s">#(totalPageViews)</p>
         </div>
 
         #for(metric in metrics):
-        <div class="p:l r:s c:background:secondary m:b">
-            <span class="t:center">#svg(metric.icon, class: "block s64 m:h:auto")</span>
-            <h3 class="t:center">#(metric.name)</h3>
-            <ul class="list:off p:zero">
+        <div class="padding border-radius-s background margin-bottom border-xs border-color-2">
+            <span>#svg(metric.icon, class: "size")</span>
+            <h2 class="margin-top-zero margin-bottom-s">#(metric.name)</h2>
+            <ul class="list-style-off">
             #for(group in metric.groups):
-                <li class="m:b:s">
-                    <div class="g2" style="grid-template-columns: 1fr 32px;">
-                        <div class="g:col1">#(group.name) &middot; #(group.count)</div>
-                        <div class="g:col1 t:right">#(group.percent)%</div>
+                <li class="margin-bottom-s">
+                    <div class="grid-2" style="grid-template-columns: 1fr 32px;">
+                        <div class="grid-col1">#(group.name) &middot; #(group.count)</div>
+                        <div class="grid-col1 text-align-right">#(group.percent)%</div>
                     </div>
-                    <span class="block r:xs bar-chart" style="width: #(group.percent)%;">
-                        <span class="p:s"></span>
+                    <span class="displayblock border-radius-xs bar-chart" style="width: #(group.percent)%;">
+                        <span class="padding-s"></span>
                     </span>
                 </li>
             #endfor
             </ul>
         </div>
         #endfor
+    </section>
 </div>
 #enddefine
 

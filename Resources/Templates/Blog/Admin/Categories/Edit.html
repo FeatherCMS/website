@@ -8,14 +8,15 @@
     "list": [
         "title": "Categories",
         "url": "/admin/blog/categories/"
-    ]
+    ],
+    "nav": []
 ])
 
-#define(toolbarRightBefore):
-    #if(metadata != nil):
-    <a href="/admin/frontend/metadatas/#(metadata.id)/update/">#svg("feather")</a>
-    #endif
-#enddefine
+#if(metadata != nil):
+    #(form.nav.append(["label": "Metadata", "link": "/admin/frontend/metadatas/" + metadata.id + "/update/"]))
+#endif
+
+
 #define(fields):
     #var(field = nil)
 

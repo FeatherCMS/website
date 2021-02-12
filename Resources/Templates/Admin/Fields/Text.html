@@ -1,7 +1,7 @@
-<section class="m:b">
-    <label for="#(field.id)">#(field.label ?? field.id.capitalized())#if(field.required ?? false):<span class="required">*</span>#endif#if(field.more ?? false): <span class="more">(#(field.more))</span>#endif</label>
-    <input type="#(field.type ?? "text")" id="#(field.id)" name="#(field.id)" value="#(field.data.value)" placeholder="#(field.placeholder ?? "")" class="field"#if(field.required ?? false):  aria-required="true"#endif>
+<section>
+    <label for="#(field.id)">#(field.label ?? field.id.capitalized())#if(field.more ?? false): <span class="color-gray">(#(field.more))</span>#endif#if(field.required ?? false):<span class="color-red">*</span>#endif</label>
+    <input type="#(field.type ?? "text")" id="#(field.id)" name="#(field.id)" value="#(field.data.value)" placeholder="#(field.placeholder ?? "")" class="field"#if(field.required ?? false): aria-required="true"#endif>
     #if(field.data.error != nil):
-    <span class="error">#(field.data.error)</span>
+    <span class="color-red">#(field.data.error)</span>
     #endif
 </section>

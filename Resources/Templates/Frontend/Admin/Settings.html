@@ -1,13 +1,17 @@
-#define(toolbarCenter):
-    Site settings
-#enddefine
-#define(toolbarLeft):
-    <button type="submit" form="site-settings-form">#svg("save")</button>
+#define(title):
+Site settings
 #enddefine
 #define(body):
-<div id="site-settings" class="content">
-    
-    <form id="site-settings-form" class="m" method="post" action="#($req.url.path)" enctype="multipart/form-data">
+<div class="container">
+    <header class="margin-bottom">
+        <h1 class="margin-top-zero">Site settings</h1>
+        <p class="margin-top-zero">
+            <a href="/" target="_blank">View site</a>
+        </p>
+    </header>
+
+    <section>
+    <form id="site-settings-form" method="post" action="#($req.url.path)" enctype="multipart/form-data">
         #var(field = nil)
 
         #(field = ["id": "formId", "value": formId])
@@ -27,6 +31,9 @@
 
             #(field = ["id": "excerpt", "size": "s", "data": fields.excerpt])
             #inline("Admin/Fields/Textarea")
+            
+            #(field = ["id": "noindex", "label": "Site index", "placeholder": "Disable site indexing by search engines", "data": fields.noindex])
+            #inline("Admin/Fields/Checkmark")
 
         </fieldset>
 
@@ -95,16 +102,17 @@
             #inline("Admin/Fields/Text")
         
         </fieldset>
-        
-        #if(notification != nil):
-        <section id="notification">
-            <span>#(notification)</span>
-        </section>
-        #endif
 
         #(field = ["label": "Save"])
         #inline("Admin/Fields/Button")
     </form>
+    </section>
+
+    #if(notification != nil):
+    <section id="notification">
+        <span>#(notification)</span>
+    </section>
+    #endif
 </div>
 #enddefine
 #inline("Admin/Index")

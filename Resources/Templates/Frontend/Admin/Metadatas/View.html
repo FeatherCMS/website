@@ -5,56 +5,65 @@
     "list": [
         "title": "Metadatas",
         "url": "/admin/frontend/metadatas/"
+    ],
+    nav: [
+        ["label": "Preview", "link": model.slug.safePath(), "targetBlank": true],
+        ["label": "Reference", "link": "/admin/" + model.module + "/" + model.model + "/" + model.reference + "/"]
     ]
 ])
+
 #define(details):
-    <dl class="t:center">
-        <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
-        
-        <dt>Title</dt>
-        <dd class="m:h:zero m:b">#(model.title)</dd>
-        
-        <dt>Excerpt</dt>
-        <dd class="m:h:zero m:b">#(model.excerpt)</dd>
-        
-        <dt>Date</dt>
-        <dd class="m:h:zero m:b">#Date(timeStamp: model.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)</dd>
+<dl>
+    <dt>Id</dt>
+    <dd>#(model.id)</dd>
+    
+    <dt>Image</dt>
+    <dd>#if(model.imageKey != nil):<a href="#(model.imageKey.resolve())" target="_blank">#(model.imageKey)</a>#endif</dd>
+    
+    <dt>Title</dt>
+    <dd>#(model.title)</dd>
+    
+    <dt>Excerpt</dt>
+    <dd>#(model.excerpt)</dd>
+    
+    <dt>Date</dt>
+    <dd>#Date(timeStamp: model.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)</dd>
 
-        <dt>Slug</dt>
-        <dd class="m:h:zero m:b">#(model.slug)</dd>
-        
-        <dt>Status</dt>
-        <dd class="m:h:zero m:b">#(model.status)</dd>
-        
-        <dt>Include in RSS?</dt>
-        <dd class="m:h:zero m:b">#(model.feedItem)</dd>
-        
-        <dt>Canonical URL</dt>
-        <dd class="m:h:zero m:b">#(model.canonicalUrl)</dd>
+    <dt>Slug</dt>
+    <dd>#(model.slug)</dd>
+    
+    <dt>Status</dt>
+    <dd>#(model.status)</dd>
+    
+    <dt>Feed item</dt>
+    <dd>#(model.feedItem == "true" ? "Include" : "Do not include") in Atom / RSS feeds</dd>
+    
+    <dt>Canonical URL</dt>
+    <dd>#(model.canonicalUrl)</dd>
 
-        <dt>Filters</dt>
-        <dd class="m:h:zero m:b">
-            #for(filter in model.filters):
-                #(filter)<br>
-            #endfor
-        </dd>
-        
-        <dt>CSS</dt>
-        <dd class="m:h:zero m:b">#(model.css)</dd>
-        
-        <dt>JS</dt>
-        <dd class="m:h:zero m:b">#(model.js)</dd>
-        
+    <dt>Filters</dt>
+    <dd>
+        #for(filter in model.filters):
+            #(filter)<br>
+        #endfor
+    </dd>
+    
+    <dt>CSS</dt>
+    <dd>#(model.css)</dd>
+    
+    <dt>JS</dt>
+    <dd>#(model.js)</dd>
+    
+    <div class="display-none">
         <dt>Module</dt>
-        <dd class="m:h:zero m:b">#(model.module)</dd>
+        <dd>#(model.module)</dd>
         
         <dt>Model</dt>
-        <dd class="m:h:zero m:b">#(model.model)</dd>
+        <dd>#(model.model)</dd>
         
         <dt>Reference</dt>
-        <dd class="m:h:zero m:b">#(model.reference)</dd>
-        
-    </dl>
+        <dd>#(model.reference)</dd>
+    </div>
+</dl>
 #enddefine
 #inline("Admin/Detail")

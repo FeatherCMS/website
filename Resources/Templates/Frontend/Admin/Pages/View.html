@@ -4,20 +4,12 @@
     "list": [
         "title": "Pages",
         "url": "/admin/frontend/pages/"
+    ],
+    "fields": [
+        ["label": "Id", "value": model.id],
+        ["label": "Title", "value": model.title],
+        ["label": "Content", "value": model.content],
     ]
 ])
 
-#define(details):
-    <dl class="t:center">
-        <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
-
-        <dt>Title</dt>
-        <dd class="m:h:zero m:b">#(model.title)</dd>
-        
-        <dt>Content</dt>
-        <dd class="m:h:zero m:b">#(model.content)</dd>
-
-    </dl>
-#enddefine
 #inline("Admin/Detail")

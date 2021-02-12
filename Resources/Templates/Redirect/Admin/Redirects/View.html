@@ -4,22 +4,12 @@
     "list": [
         "title": "Redirects",
         "url": "/admin/redirect/redirects/"
+    ],
+    fields: [
+        ["label": "Id", "value": model.id],
+        ["label": "Source", "value": model.source],
+        ["label": "Destination", "value": model.destination],
+        ["label": "Status code", "value": model.statusCode]
     ]
 ])
-#define(details):
-    <dl class="t:center">
-        <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
-
-        <dt>Source</dt>
-        <dd class="m:h:zero m:b">#(model.source)</dd>
-        
-        <dt>Destination</dt>
-        <dd class="m:h:zero m:b">#(model.destination)</dd>
-
-        <dt>Status code</dt>
-        <dd class="m:h:zero m:b">#(model.statusCode)</dd>
-        
-    </dl>
-#enddefine
 #inline("Admin/Detail")

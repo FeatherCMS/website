@@ -4,29 +4,19 @@
     "list": [
         "title": "Authors",
         "url": "/admin/blog/authors/"
+    ],
+    "nav": [],
+    fields: [
+        ["label": "Id", "value": model.id],
+        ["label": "Image", "value": model.imageKey],
+        ["label": "Name", "value": model.name],
+        ["label": "Bio", "value": model.bio]
     ]
 ])
 
-#define(toolbarRightBefore):
-    #if(UserHasPermission("blog.author.links.list")):
-    <a href="/admin/blog/authors/#(model.id)/links/">#svg("link-2")</a>
-    #endif
-#enddefine
+#if(UserHasPermission("blog.author.links.list")):
+    #(detail.nav.append(["label": "Links", "link": "/admin/blog/authors/" + model.id + "/links/"]))
+#endif
 
-#define(details):
-    <dl class="t:center">
-        <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
 
-        <dt>Image</dt>
-        <dd class="m:h:zero m:b"><img src="#(model.imageKey.resolve())" class="s256"></dd>
-
-        <dt>Name</dt>
-        <dd class="m:h:zero m:b">#(model.name)</dd>
-        
-        <dt>Bio</dt>
-        <dd class="m:h:zero m:b">#(model.bio)</dd>
-
-    </dl>
-#enddefine
 #inline("Admin/Detail")

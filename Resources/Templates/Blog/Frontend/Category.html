@@ -6,21 +6,22 @@
 ])
 
 #define(body):
-<div id="posts" class="m">
-    <header class="t:center m:b:xl">
-        <img
-            class="s128 r:xs c:border:primary"#if(category.color != nil): style="border-color: #(category.color);"#endif
-            src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
-        <h1 class="m:t">#(head.title)</h1>
-        <p>#(head.description)</p>
-        <p><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
-    </header>
+<div id="category" class="container">
+    <div class="margin">
+        <header class="margin-bottom-xl">
+            <img
+                class="size border-radius-s border"#if(category.color != nil): style="border-color: #(category.color);"#endif
+                src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
+            <h1 class="margin-top-zero">#(head.title)</h1>
+            <p class="margin-top-zero">#(head.description)</p>
+            <p class="color-gray"><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
+        </header>
 
-    <div class="g321 g:gap:col g:gap:row:xl">
-        #for(post in posts):
-        #var(size = 1)
-        #inline("Blog/Frontend/SinglePost")
-        #endfor
+        <section class="margin-bottom-xl">
+            #for(post in posts):
+            #inline("Blog/Frontend/SinglePost")
+            #endfor
+        </section>
     </div>
 </div>
 #enddefine

@@ -1,0 +1,8 @@
+.post-cell a p {
+    color: #333;
+}
+@media (prefers-color-scheme: dark) {
+    .post-cell a p {
+        color: #e0e0e0;
+    }
+}

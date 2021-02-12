@@ -12,7 +12,6 @@
     ]
 ])
 
-
 #define(fields):
     <input type="hidden" name="menuId" value="#(menuId)">
 
@@ -30,8 +29,8 @@
     #(field = ["id": "priority", "required": true, "data": fields.priority])
     #inline("Admin/Fields/Text")
     
-    #(field = ["id": "targetBlank", "label": "Open in new window?", "data": fields.targetBlank])
-    #inline("Admin/Fields/Selection")
+    #(field = ["id": "targetBlank", "label": "Target", "placeholder": "Open in new window / tab", "data": fields.targetBlank])
+    #inline("Admin/Fields/Checkmark")
     
     #(field = ["id": "permission", "data": fields.permission])
     #inline("Admin/Fields/Text")

@@ -19,8 +19,8 @@
     #(field = ["id": "password", "type": "password", "data": fields.password])
     #inline("Admin/Fields/Text")
 
-    #(field = ["id": "root", "label": "Root access", "data": fields.root])
-    #inline("Admin/Fields/Selection")
+    #(field = ["id": "root", "label": "Root access", "placeholder": "User can access everything", "data": fields.root])
+    #inline("Admin/Fields/Checkmark")
 
     #(field = ["id": "roles", "data": fields.roles])
     #inline("Admin/Fields/Checkbox")

@@ -4,27 +4,16 @@
     "list": [
         "title": "Menus",
         "url": "/admin/frontend/menus/"
+    ],
+    "nav": [
+        ["label": "Menu items", "link": "/admin/frontend/menus/" + model.id + "/items/"]
+    ],
+    fields: [
+        ["label": "Id", "value": model.id],
+        ["label": "Key", "value": model.key],
+        ["label": "Name", "value": model.name],
+        ["label": "Notes", "value": model.notes]
     ]
 ])
 
-#define(toolbarRightBefore):
-    <a href="/admin/frontend/menus/#(model.id)/items/">#svg("link")</a>
-#enddefine
-
-#define(details):
-    <dl class="t:center">
-        <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
-
-        <dt>Key</dt>
-        <dd class="m:h:zero m:b">#(model.key)</dd>
-
-        <dt>Name</dt>
-        <dd class="m:h:zero m:b">#(model.name)</dd>
-
-        <dt>Notes</dt>
-        <dd class="m:h:zero m:b">#(model.notes)</dd>
-
-    </dl>
-#enddefine
 #inline("Admin/Detail")

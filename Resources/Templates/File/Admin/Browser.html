@@ -1,65 +1,112 @@
+#define(title):
+File browser
+#enddefine
+
 #define(css):
+.preview-image {
+    display: block;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 64px;
+    height: 32px;
+    margin: 0 auto;
+}
 tr {
     grid-template-columns: 1fr;
 }
+
 @media (min-width: 600px) {
+    .preview-image {
+        margin: 0;
+    }
     tr {
         #if(UserHasPermission("file.browser.delete")):
-        grid-template-columns: 64px 1fr 96px 64px;
+        grid-template-columns: 80px 1fr 80px;
         #else:
-        grid-template-columns: 64px 1fr 96px;
+        grid-template-columns: 80px 1fr;
         #endif
     }
 }
 #enddefine
 
-#define(toolbarCenter):
-    File browser
-#enddefine
-#define(toolbarLeft):
-    <a href="#($req.url.path)">#svg("home")</a>
-#enddefine
-#define(toolbarRight):
-    #if(UserHasPermission("file.browser.create")):
-        <a href="#($req.url.path.trimLast())directory/?key=#Request(query: "key")">#svg("folder-plus")</a>
-        <a href="#($req.url.path.trimLast())upload/?key=#Request(query: "key")">#svg("arrow-up-circle")</a>
-    #endif
-#enddefine
-
 #define(body):
-<h5 class="m:h m:v:zero">#svg("folder") &nbsp; /#(current.key ?? "")</h5>
-<table class="m">
+<header class="margin-bottom">
+    <h1 class="margin-top-zero">File browser</h1>
+    <p class="margin-top-zero">
+        #var(navItems = [
+            ["link": $req.url.path, "label": "Root"]
+        ])
+        #if(UserHasPermission("file.browser.create")):
+            #(navItems.append(["link": $req.url.path.trimLast() + "directory/?key=" + Request(query: "key"), "label": "Create directory"]))
+            #(navItems.append(["link": $req.url.path.trimLast() + "upload/?key=" + Request(query: "key"), "label": "Upload files"]))
+        #endif
+        #for(navItem in navItems + table.nav ?? []):
+            #if(!isFirst): &middot; #endif<a href="#(navItem.link)"#if(navItem.targetBlank ?? false): target="_blank"#endif>#(navItem.label)</a>
+        #endfor
+    </p>
+</header>
+
+<span class="display-block margin-s margin-vertical">#svg("folder") &nbsp; /#(current.key ?? "")</span>
+
+<table>
     <thead>
-        <tr>
-            <th class="td:center td:hidden td:compact:hidden">Icon</th>
-            <th class="td:left m:h:s td:compact:hidden">Key</th>
-            <th class="td:center td:compact:hidden">View</th>
+        <tr class="background-1 text-align-left">
+            <th class="text-align-center compact-hidden">Icon</th>
+            <th class="margin-horizontal-s compact-hidden">Name</th>
             #if(UserHasPermission("file.browser.delete")):
-            <th class="td:center td:compact:hidden">Delete</th>
+            <th class="text-align-center compact-hidden">Delete</th>
             #endif
         </tr>
     </thead>
     <tbody>
         #if(parent != nil):
-        <tr>
-            <td class="td:left m:h:s"><a href="#($req.url.path)?key=#(parent.key)">#if(parent.ext == nil):#svg("folder")#elseif(["png", "jpg", "jpeg"].contains(parent.ext)):<img src="#(parent.key.resolve())">#else:#svg("file")#endif</a></td>
-            <td class="td:left m:h:s td:separator"><a href="#($req.url.path)?key=#(parent.key)">..</a></td>
-            <th class="td:center">&nbsp;</th>
+        <tr class="margin-bottom-s shadow-s padding-s">
+            <td class="compact-center"><a href="#($req.url.path)?key=#(parent.key)">#svg("folder", "class": "size-width")</a></td>
+            <td class="compact-center"><a href="#($req.url.path)?key=#(parent.key)">&bull;&bull;&bull;</a></td>
             #if(UserHasPermission("file.browser.delete")):
-            <th class="td:center">&nbsp;</th>
+            <th class="compact-hidden">&nbsp;</th>
             #endif
         </tr>
         #endif
 
         #for(item in children):
-    <tr>
-        <td class="td:left m:h:s"><a href="#($req.url.path)?key=#(item.key)">#if(item.ext == nil):#svg("folder")#elseif(["png", "jpg", "jpeg"].contains(item.ext)):<img src="#(item.key.resolve())">#else:#svg("file")#endif</a></td>
-        <td class="td:left m:h:s td:separator"><a href="#($req.url.path)?key=#(item.key)">#(item.name)</a></td>
-        <td class="td:center">#if(item.ext != nil):<a href="#(item.key.resolve())" target="_blank">#svg("eye")</a>#else:&nbsp;#endif</td>
-        #if(UserHasPermission("file.browser.delete")):
-        <td class="td:center"><a href="#($req.url.path.trimLast())delete/?key=#(item.key)&cancel=#($req.url.path)?key=#Request(query: "key")">#svg("trash")</a></td>
-        #endif
-    </tr>
+        <tr class="margin-bottom-s shadow-s padding-s">
+<!--            <td class="margin-horizontal-xs compact-margin compact-center compact-separator">-->
+        
+            <td class="compact-separator compact-center">
+                #if(item.ext != nil):
+                <a href="#(item.key.resolve())" target="_blank">
+                #else:
+                <a href="#($req.url.path)?key=#(item.key)">
+                #endif
+
+                    #if(item.ext == nil):
+                        #svg("folder", "class": "size-width")
+                    #elseif(["png", "jpg", "jpeg"].contains(item.ext)):
+                        <div class="preview-image" style="background-image: url('#(item.key.resolve())');"></div>
+                    #else:
+                        #svg("file")
+                    #endif
+                </a>
+            </td>
+
+            <td class="compact-separator compact-center">
+                #if(item.ext != nil):
+                <a href="#(item.key.resolve())" target="_blank">#(item.name)</a>
+                #else:
+                <a href="#($req.url.path)?key=#(item.key)">#(item.name)</a>
+                #endif
+            </td>
+
+            #if(UserHasPermission("file.browser.delete")):
+            <td class="text-align-center margin-left-s">
+                <a href="#($req.url.path.trimLast())delete/?key=#(item.key)&cancel=#($req.url.path)?key=#Request(query: "key")">
+                    #svg("trash")
+                </a>
+            </td>
+            #endif
+        </tr>
         #endfor
     </tbody>
 </table>

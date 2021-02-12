@@ -10,15 +10,18 @@
     "list": [
         "title": "Links",
         "url": "/admin/authors/" + authorId + "/links/"
-    ]
+    ],
+    "nav": []
 ])
 
-#define(toolbarRightBefore):
-    <a href="/admin/blog/authors/#(authorId)">#svg("user")</a>
-#enddefine
+#if(modelId != nil && UserHasPermission("blog.author.get")):
+    #(form.nav.append(["label": "Author", "link": "/admin/blog/authors/" + authorId + "/"]))
+#endif
+
 
 #define(fields):
     <input type="hidden" name="authorId" value="#(authorId)">
+    
     #var(field = nil)
 
     #(field = ["id": "label", "required": true, "data": fields.label])

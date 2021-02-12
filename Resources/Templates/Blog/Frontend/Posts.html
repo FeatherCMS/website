@@ -5,39 +5,34 @@
     "js": metadata.js
 ])
 #define(body):
-<div id="posts" class="m">
-    <header class="t:center">
-        <h1 class="m:t">#(head.title)</h1>
-        <p>#(head.description)</p>
-    </header>
-    
-    <form class="w m:v:l m:h:auto" id="search-form" action="#($req.url.path)" method="get">
-        #if(Request(query: "limit") != nil):
-        <input type="hidden" id="limit" name="limit" value="#Request(query: "limit")">
+<div id="posts" class="container">
+    <div class="margin">
+        <header>
+            <h1>#(head.title)</h1>
+            <p>#(head.description)</p>
+        </header>
+        
+        <form class="margin-top margin-bottom-xl" id="search-form" action="#($req.url.path)" method="get">
+            #if(Request(query: "limit") != nil):
+            <input type="hidden" id="limit" name="limit" value="#Request(query: "limit")">
+            #endif
+            <input type="text" id="search" name="search" placeholder="Search..." value="#Request(query: "search")">
+        </form>
+
+        <section>
+        #if(page.items.isEmpty()):
+            #inline("Admin/Empty")
+        #else:
+            #for(post in page.items):
+                #inline("Blog/Frontend/SinglePost")
+            #endfor
         #endif
-        <input type="text" id="search" name="search" placeholder="Search..." value="#Request(query: "search")">
-    </form>
+        </section>
 
-    <div class="g321 g:gap:col g:gap:row:xl">
-    #for(post in page.items):
-        #var(size = 1)
-        #inline("Blog/Frontend/SinglePost")
-    #endfor
-    </div>
-    
-    #if(page.items.isEmpty()):
-    <div class="content t:center">
-        <div class="m:xl">
-            <span class="h1 m:v:zero">#($system.variables["empty.list.icon"])</span>
-            <p class="h1 m:v:s">#($system.variables["empty.list.title"])</p>
-            <p>#($system.variables["empty.list.description"])</p>
-            <p><a href="#($req.url.path)">#($system.variables["empty.list.link"])</a></p>
+        <div id="pagination" class="text-align-center">
+            #inline("Frontend/Pagination")
         </div>
-    </div>
-    #endif
 
-    <div id="pagination" class="t:center">
-    #inline("Frontend/Pagination")
     </div>
 </div>
 #enddefine

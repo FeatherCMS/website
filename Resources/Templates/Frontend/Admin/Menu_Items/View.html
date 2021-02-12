@@ -6,29 +6,15 @@
     "list": [
         "title": "Menu items",
         "url": "/admin/frontend/menus/" + menuId + "/items/"
+    ],
+    fields: [
+        ["label": "Id", "value": model.id],
+        ["label": "Icon", "value": (model.icon != nil ? svg(model.icon) : "")],
+        ["label": "Label", "value": model.label],
+        ["label": "Url", "value": model.url],
+        ["label": "Target", "value": ("Open in " + (model.targetBlank == "true" ? "new" : "same") + " window / tab")],
+        ["label": "Permission", "value": model.permission]
     ]
 ])
 
-#define(details):
-    <dl class="t:center">
-        <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
-        
-        <dt>Icon</dt>
-        <dd class="m:h:zero m:b">#if(model.icon != nil):#svg(model.icon)#endif</dd>
-
-        <dt>Label</dt>
-        <dd class="m:h:zero m:b">#(model.label)</dd>
-
-        <dt>Url</dt>
-        <dd class="m:h:zero m:b">#(model.url)</dd>
-
-        <dt>Open in new window?</dt>
-        <dd class="m:h:zero m:b">#(model.targetBlank)</dd>
-        
-        <dt>Permission</dt>
-        <dd class="m:h:zero m:b">#(model.permission)</dd>
-
-    </dl>
-#enddefine
 #inline("Admin/Detail")

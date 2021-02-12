@@ -1,9 +1,9 @@
 <section>
     <label for="#(field.id)" class="display-block">#(field.label ?? field.id.capitalized())#if(field.more ?? false): <span class="color-gray">(#(field.more))</span>#endif#if(field.required ?? false):<span class="color-red">*</span>#endif</label>
-    #for(item in field.data.options):
-    <input type="radio" name="#(field.id)" value="#(item.key)" id="#(field.id)-#(item.key)" #if(field.data.value == item.key):checked#endif>
-    <label for="#(field.id)-#(item.key)">#(item.label)</label><br>
-    #endfor
+    
+    <input type="checkbox" name="#(field.id)" value="true" id="#(field.id)" #if(field.data.value == "true"):checked#endif>
+    <label for="#(field.id)">#(field.placeholder ?? "Yes")</label><br>
+
     #if(field.data.error != nil):
     <span class="color-red">#(field.data.error)</span>
     #endif

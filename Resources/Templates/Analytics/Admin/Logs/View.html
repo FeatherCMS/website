@@ -8,27 +8,28 @@
         "url": "/admin/analytics/logs/"
     ]
 ])
+
 #define(details):
-    <dl class="t:center">
+    <dl>
         <dt>Id</dt>
-        <dd class="m:h:zero m:b">#(model.id)</dd>
+        <dd>#(model.id)</dd>
 
         <dt>Path</dt>
-        <dd class="m:h:zero m:b">#(model.path)</dd>
+        <dd>#(model.path)</dd>
 
         
         
         <dt>Date</dt>
-        <dd class="m:h:zero m:b">#Date(timeStamp: model.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)</dd>
+        <dd>#Date(timeStamp: model.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)</dd>
 
         <dt>Language, region</dt>
-        <dd class="m:h:zero m:b">#(model.language), #(model.region)</dd>
+        <dd>#(model.language), #(model.region)</dd>
 
         <dt>Browser</dt>
-        <dd class="m:h:zero m:b">#(model.browser.name), #(model.browser.version)</dd>
+        <dd>#(model.browser.name), #(model.browser.version)</dd>
         
         <dt>Operating system</dt>
-        <dd class="m:h:zero m:b">#(model.os.name), #(model.os.version)</dd>
+        <dd>#(model.os.name), #(model.os.version)</dd>
 
     </dl>
 #enddefine

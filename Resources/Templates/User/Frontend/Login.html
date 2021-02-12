@@ -3,41 +3,44 @@
     "description": "Sign in with your existing account"
 ])
 #define(body):
-<div id="posts" class="m">
+<div class="container">
+    <div class="margin">
 
-    <header class="t:center m:b:xl">
-        <h1 class="m:t">Login</h1>
-        <p>Sign in with your existing account</p>
-    </header>
+        <header class="margin-bottom">
+            <h1>Login</h1>
+            <p class="margin-top-zero">Sign in with your existing account</p>
+        </header>
 
-    <form method="post" class="w:xs m:h:auto">
+        <form method="post">
 
-        <section class="m:b">
-            <label for="email">Email<span class="required">*</span></label>
-            <input type="email" id="email" name="email" value="#(fields.email.value)" placeholder="root@feathercms.com" class="field" aria-required="true">
-            #if(fields.email.error != nil):
-            <span class="error">#(fields.email.error)</span>
+            <section class="margin-bottom">
+                <label for="email">Email<span class="color-red">*</span></label>
+                <input type="email" id="email" name="email" value="#(fields.email.value)" placeholder="root@feathercms.com" class="field" aria-required="true">
+                #if(fields.email.error != nil):
+                <span class="color-red">#(fields.email.error)</span>
+                #endif
+            </section>
+
+            <section class="margin-bottom">
+                <label for="password">Password<span class="color-red">*</span></label>
+                <input type="password" id="password" name="password" class="field" aria-required="true">
+                #if(fields.password.error != nil):
+                <span class="color-red">#(fields.passwords.error)</span>
+                #endif
+            </section>
+
+            #if(notification != nil):
+            <section id="notification" class="color-red margin-bottom">
+                <span>#(notification)</span>
+            </section>
             #endif
-        </section>
 
-        <section class="m:b">
-            <label for="password">Password<span class="required">*</span></label>
-            <input type="password" id="password" name="password" class="field" aria-required="true">
-            #if(fields.password.error != nil):
-            <span class="error">#(fields.passwords.error)</span>
-            #endif
-        </section>
-
-        #if(notification != nil):
-        <section id="notification" class="m:v t:center error">
-            <span>#(notification)</span>
-        </section>
-        #endif
-
-        <section class="m:b">
-            <input type="submit" class="w:full" value="Sign in" />
-        </section>
-    </form>
+            <section class="margin-bottom-xl">
+                <input type="submit" value="Sign in" />
+            </section>
+        </form>
+        
+    </div>
 </div>
 #enddefine
 #inline("Frontend/Index")

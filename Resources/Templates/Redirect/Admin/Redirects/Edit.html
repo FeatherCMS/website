@@ -14,13 +14,13 @@
 #define(fields):
     #var(field = nil)
 
-    #(field = ["id": "source", "required": true, "data": fields.source])
+    #(field = ["id": "source", "more": "e.g.: /src/", "required": true, "data": fields.source])
     #inline("Admin/Fields/Text")
 
-    #(field = ["id": "destination", "required": true, "data": fields.destination])
+    #(field = ["id": "destination", "more": "e.g.: /dest/", "required": true, "data": fields.destination])
     #inline("Admin/Fields/Text")
 
-    #(field = ["id": "statusCode", "label": "Status Code", "data": fields.statusCode])
+    #(field = ["id": "statusCode", "label": "Status code", "data": fields.statusCode])
     #inline("Admin/Fields/Selection")
 
 #enddefine

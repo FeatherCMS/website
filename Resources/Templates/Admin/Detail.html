@@ -1,34 +1,46 @@
-#define(toolbarCenter):
-    #(detail.title ?? "Details")
+#define(title):
+#(detail.title ?? "") details
 #enddefine
-    
+
 #define(breadcrumb):
     #if(UserHasPermission(detail.key + ".list")):
     <li><a href="#(detail.list.url)">#(detail.list.title)</a></li>
     #endif
 #enddefine
     
-#define(toolbarLeft):
-    #if((detail.edit ?? true) && UserHasPermission(detail.key + ".update")):
-    <a href="#($req.url.path)update/">#svg("edit-2")</a>
-    #endif
-
-    #evaluate(toolbarLeftAfter ?? "")
-#enddefine
-
-#define(toolbarRight):
-    #evaluate(toolbarRightBefore ?? "")
-
-    #if((detail.delete ?? true) && UserHasPermission(detail.key + ".delete")):
-    <a href="#($req.url.path)delete/?cancel=#($req.url.path)">#svg("trash")</a>
-    #endif
-#enddefine
-    
 #define(body):
-<div class="w m:h:auto m:b:xl">
-    <div class="m">
-        #evaluate(details ?? "")
-    </div>
+<div class="container">
+    <header class="margin-bottom">
+        <h1 class="margin-top-zero">#(detail.title ?? "") details</h1>
+        <p class="margin-top-zero">
+            #var(navItems = [])
+            #if((detail.edit ?? true) && UserHasPermission(detail.key + ".update")):
+                #(navItems.append(["link": $req.url.path + "update/", "label": "Edit"]))
+            #endif
+            #for(navItem in navItems + detail.nav ?? []):
+                #if(!isFirst): &middot; #endif<a href="#(navItem.link)"#if(navItem.targetBlank ?? false): target="_blank"#endif>#(navItem.label)</a>
+            #endfor
+        </p>
+    </header>
+    
+    <section>
+        #if(!(detail.fields ?? []).isEmpty()):
+        <dl>
+        #for(field in detail.fields):
+            <dt>#(field.label)</dt>
+            <dd>#(field.value)</dd>
+        #endfor
+        </dl>
+        #else:
+            #evaluate(details ?? "")
+        #endif
+
+        <div class="margin-top-xl">
+            #if((detail.delete ?? true) && UserHasPermission(detail.key + ".delete")):
+            <a href="#($req.url.path)delete/?cancel=#($req.url.path)" class="color-red">Delete</a>
+            #endif
+        </div>
+    </section>
 </div>
 #enddefine
 

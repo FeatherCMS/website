@@ -1,13 +1,13 @@
 #let(head = [
     "title": $system.variables["frontend.page.not.found.title"],
-    "description": $system.variables["frontend.page.not.found.description"]
+    "excerpt": $system.variables["frontend.page.not.found.excerpt"]
 ])
 #define(body):
-<div class="content t:center">
-    <div class="m:xl">
+<div class="container text-align-center">
+    <div class="margin-xl">
         <span class="h1">#($system.variables["frontend.page.not.found.icon"])</span>
-        <h1 class="m:t:zero">#($system.variables["frontend.page.not.found.title"])</h1>
-        <p>#($system.variables["frontend.page.not.found.description"])</p>
+        <h1 class="margin-top-zero">#($system.variables["frontend.page.not.found.title"])</h1>
+        <p class="margin-bottom">#($system.variables["frontend.page.not.found.excerpt"])</p>
         <a href="/">#($system.variables["frontend.page.not.found.link"])</a>
     </div>
 </div>

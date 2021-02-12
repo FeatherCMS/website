@@ -1,66 +1,62 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-US">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
 
-    <title>#evaluate(toolbarCenter ?? "") - #($system.variables["frontend.site.title"]) &middot; CMS</title>
+    <title>#evaluate(title ?? "Admin") - Feather CMS</title>
 
     <link rel="shortcut icon" href="/images/icons/favicon.ico" type="image/x-icon">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/binarybirds/peacock-css@1.0.0-beta.4/peacock.min.css">
+    #for(file in InvokeAllHooks("frontend-css")):
+        #if($app.isDebug ?? false):
+        <link rel="stylesheet" href="/css/#(file.name).css">
+        #else:
+        <link rel="stylesheet" href="/css/#(file.name).min.css">
+        #endif
+    #endfor
     #if($app.isDebug):
-    <link rel="stylesheet" href="/css/frontend.css">
     <link rel="stylesheet" href="/css/admin.css">
     #else:
-    <link rel="stylesheet" href="/css/frontend.min.css">
     <link rel="stylesheet" href="/css/admin.min.css">
     #endif
-        
+
     <style type="text/css">
         #evaluate(css ?? "")
     </style>
 </head>
+<body class="background">
+    <header class="padding-xs background border-bottom-xs border-color-2">
+        <input type="checkbox" id="menu-button" class="selection-off">
+        <label for="menu-button" id="menu-icon" class="selection-off"><span></span></label>
 
-<body class="m:zero">
-
-    <header id="header">
-        <input type="checkbox" id="menu-button" class="selection:off" />
-        <label for="menu-button" id="menu-icon" class="selection:off"><span></span></label>
-
-        <a id="site-link" href="/">
-            <img src="/images/logo-text.png" alt="Logo of #($system.variables["frontend.site.title"])" title="#($system.variables["frontend.site.title"])">
+        <a href="/admin/" id="logo">
+            <img src="/images/logo-text.png" alt="Feather CMS" title="Feather CMS">
         </a>
         
-        <nav id="nav">
-            #if($req.url.path != "/admin/"):
-            <li><a href="/admin/">Dashboard</a></li>
-            #endif
+        <nav class="nav">
             #evaluate(breadcrumb ?? "")
+            <li><a href="/">View site</a></li>
             <li><a id="account" href="/logout/">Sign out</a></li>
         </nav>
 
     </header>
 
-    <div class="m:h:s">
-        <div id="toolbar" class="g3 g:gap:zero w:full">
-            
-            <div id="left" class="g:col1 container t:left">
-                #evaluate(toolbarLeft ?? "")
-            </div>
-            <div id="center" class="g:col1 t:center">
-                <h3 class="m:zero">#evaluate(toolbarCenter ?? "")</h3>
-            </div>
-            <div id="right" class="g:col1 container t:right">
-                #evaluate(toolbarRight ?? "")
-            </div>
+    <main class="container-full background-1" style="min-height: 25rem;">
+        <div class="margin margin-bottom-xl">
+            #body()
         </div>
-    </div>
-
-    <main class="container">
-        #body()
     </main>
+    
+    <footer class="container-full background border-top-xs border-color-2">
+        <section class="margin text-align-left padding-xs">
+            <p>#svg("feather", "class": "color-secondary")</p>
+            <p>Powered by <a href="https://feathercms.com/" target="_blank">Feather CMS</a>, <a href="https://vapor.codes/" target="_blank">Vapor</a> and <a href="https://swift.org/" target="_blank">Swift</a>.</p>
+            <p class="text-size-xs">Feel free to <a href="https://discord.gg/wMSkxCUXAD" target="_blank">join the chat</a> on our Discord server.</p>
+            <p>Thank you for using Feather.</p>
+        </section>
+    </footer>
 
     <script src="/javascript/admin.js"></script>
     <script type="text/javascript">

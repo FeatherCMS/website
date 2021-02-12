@@ -1,4 +1,4 @@
-<section class="m:b #(field.class ?? "large")-uploader uploader">
+<section class="#(field.class ?? "large")-uploader uploader">
 
     #if(field.data.value.key != nil):
         <img id="preview" src="#(field.data.value.key.resolve())">
@@ -6,7 +6,7 @@
         <div id="placeholder" class="p:l">#svg(field.placeholder ?? "image", class: "s64 block m:h:auto")</div>
     #endif
 
-    <label for="#(field.id)">#(field.label ?? field.id.capitalized())#if(field.required ?? false):<span class="required">*</span>#endif</label>
+    <label for="#(field.id)">#(field.label ?? field.id.capitalized())#if(field.more ?? false): <span class="color-gray">(#(field.more))</span>#endif#if(field.required ?? false):<span class="color-red">*</span>#endif</label>
     <input id="#(field.id)" name="#(field.id)" type="file"#if(field.accept != nil): accept="#(field.accept)"#endif #if(field.required ?? false): aria-required="true"#endif>
 
     #if(!field.required ?? false):
@@ -24,6 +24,6 @@
     #endif
 
     #if(field.data.error != nil):
-    <span class="error">#(field.data.error)</span>
+    <span class="color-red">#(field.data.error)</span>
     #endif
 </section>

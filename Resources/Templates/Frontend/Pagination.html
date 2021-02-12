@@ -1,6 +1,6 @@
 #(let pages = page.info ?? nil)
 #if(pages.total > 1 && pages.current < pages.total + 1):
-<hr class="m:v">
+<hr class="margin-vertical">
 
 #if(pages.current > 1):
 <a href="#Request(setQuery: ["page": 1])">#svg("chevrons-left")</a>

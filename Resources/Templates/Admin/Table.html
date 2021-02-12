@@ -1,67 +1,85 @@
-#var(columns = "1fr")
-#var(actions = 0)
+#var(actions = [] + table.actions ?? [])
+
 #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
-    #(columns += " 64px")
-    #(actions += 1)
+    #(actions.append(["link": "/update/", "label": "Edit", "icon": "edit-2", "width": "80px"]))
 #endif
+
 #if((table.delete ?? true) && UserHasPermission(table.key + ".delete")):
-    #(columns += " 64px")
-    #(actions += 1)
+    #(actions.append(["link": "/delete/", "label": "Delete", "icon": "trash", "width": "80px"]))
 #endif
 
 #define(css):
 tr {
-    grid-template-columns: repeat(#max(1, actions), 1fr);
+    grid-template-columns: repeat(#max(1, actions.count()), 1fr);
 }
 @media (min-width: 600px) {
     tr {
-        grid-template-columns: #(columns);
+        grid-template-columns:#for(f in table.fields ?? []): #(f.width ?? "1fr")#endfor #for(a in actions): #(a.width ?? "1fr")#endfor;
     }
 }
 #enddefine
 
 #define(th):
-    <th class="td:left m:h:s#if(actions > 0): td:compact:col#(actions)#endif">
+    #for(field in table.fields ?? []):
+    <th class="margin-horizontal-xs compact-center #if(!actions.isEmpty()): compact-col#(actions.count())#endif">
         #let(link = [
-             "key": table.field.key,
-             "default": true,
-             "sort": (table.field.sort ?? "asc")
+             "key": field.property ?? field.key,
+             "default": field.default ?? false,
+             "sort": field.sort ?? "asc",
+             "label": field.label ?? field.property.capitalized() ?? field.key.capitalized()
         ])
         #inline("Admin/SortLink")
     </th>
+    #endfor
 
-    #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
-    <th class="td:center td:compact:hidden">Edit</th>
-    #endif
-    
-    #if((table.delete ?? true) && UserHasPermission(table.key + ".delete")):
-    <th class="td:center td:compact:hidden">Drop</th>
-    #endif
-
+    #for(action in actions):
+        <th class="text-align-center compact-hidden margin-right-s">#(action.label)</th>
+    #endfor
 #enddefine
 
 #define(tr):
     #for(item in list.items):
-    <tr>
-        <td class="td:left m:h:s td:compact:margin #if(actions > 0): td:compact:separator td:compact:col#(actions)#endif">
-            #if((table.view ?? true) && UserHasPermission(table.key + ".get")):
-            <a href="#($req.url.path)#(item.id)/">#(item[table.field.key])</a>
-            #else:
-            #(item[table.field.key])
-            #endif
-        </td>
+        #let(canView = (table.view ?? true) && UserHasPermission(table.key + ".get"))
         
-        #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
-        <td class="td:center">
-            <a href="#($req.url.path)#(item.id)/update">#svg("edit-2")</a>
-        </td>
-        #endif
 
-        #if((table.delete ?? true) && UserHasPermission(table.key + ".delete")):
-        <td class="td:center">
-            <a href="#($req.url.path)#(item.id)/delete/">#svg("trash")</a>
+    <tr class="margin-bottom-s shadow-s padding-s">
+
+        #for(field in table.fields ?? []):
+        <td class="margin-horizontal-xs compact-margin compact-center #if(!actions.isEmpty()): compact-separator compact-col#(actions.count())#endif">
+            
+            #let(fieldType = field.type ?? "string")
+
+            #var(value = "")
+            #if(field.property ?? "" != ""):
+                #var(value = item[field.key][field.property ?? ""])
+            #else:
+                #var(value = item[field.key])
+            #endif
+
+            #if(fieldType == "date"):
+                #var(value = Date(timeStamp: value, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone))
+            #elseif(fieldType == "image"):
+                #var(value = "<img src='" + value.resolve() + "'>")
+            #endif
+            
+            #if(value.isEmpty()):
+                #var(value = field.placeholder ?? "")
+            #endif
+
+            #if(canView):
+                <a href="#($req.url.path)#(item.id)/">#(value)</a>
+            #else:
+                #(value)
+            #endif
+            
         </td>
-        #endif
+        #endfor
+
+        #for(action in actions):
+        <td class="text-align-center compact-margin">
+            <a href="#($req.url.path)#(item.id)#(action.link)">#svg(action.icon)</a>
+        </td>
+        #endfor
     </tr>
     #endfor
 #enddefine

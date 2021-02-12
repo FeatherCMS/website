@@ -28,18 +28,20 @@
 
 #enddefine
 #define(body):
-<div id="home" class="m">
-    <header class="t:center m:b:xl">
-        <h1 class="m:t">#(head.title)</h1>
-        <p>#(head.description)</p>
-    </header>
+<div id="blog" class="container-full">
+    <div class="margin">
+        <header class="margin-bottom-xl">
+            <h1>#(head.title)</h1>
+            <p>#(head.description)</p>
+        </header>
 
-    <div class="g6 g:gap:col g:gap:row:xl">
-    #for((index, post) in posts):
-        #var(size = 1)
-        #var(class = "post-cell post-cell-" + index + 1)
-        #inline("Blog/Frontend/SinglePost")
-    #endfor
+        <section class="grid-6 grid-gap">
+        #for((index, post) in posts):
+            #var(size = 1)
+            #var(class = "post-cell post-cell-" + index + 1)
+            #inline("Blog/Frontend/SinglePost")
+        #endfor
+        </section>
     </div>
 </div>
 #enddefine

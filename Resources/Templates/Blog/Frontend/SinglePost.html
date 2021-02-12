@@ -1,20 +1,21 @@
-<div class="post-cell g:col#(size ?? 1)#if(class != nil): #(class ?? "")#endif">
+<div class="post-cell background shadow-xl border-radius-xs margin-bottom-xl" style="overflow: hidden;">
     <a href="/#(post.metadata.slug)">
-        <div class="container r:xs">
-            <img class="block w:full" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
-            <div class="overlay"><span class="h3">Read now</span></div>
+        #if(post.imageKey != nil):
+        <img class="block size-width-full" src="#(post.imageKey.resolve())">
+        #endif
+        
+        <div class="padding">
+        <h2 class="h3 margin-top-zero">#(post.title)</h2>
+        <p class="margin-top-s margin-bottom">#(post.excerpt)</p>
+
+        #for(pc in post.categories ?? []):
+        <span class="color-white shadow margin-right-xs "#if(pc.color != nil): style="background-color: #(pc.color); padding: 4px 8px; border-radius: 8px;"#endif>#(pc.title)</span>
+        #endfor
+        
+        <div class="margin-top-s color-gray">
+            #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
+            <time datetime="#(dateString)">#(dateString)</time>
         </div>
-        <div>
-            <p class="m:v:xs">
-                #for(pc in post.categories ?? []):
-                <span class="c:underline:accent"#if(pc.color != nil): style="border-color: #(pc.color);"#endif>#(pc.title)</span>
-                    &middot;
-                #endfor
-                #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
-                <time datetime="#(dateString)">#(dateString)</time>
-            </p>
-            <h2 class="h3 m:zero m:b:xs">#(post.title)</h2>
-            <p class="m:zero">#(post.excerpt)</p>
         </div>
     </a>
 </div>

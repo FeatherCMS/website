@@ -7,16 +7,15 @@
     "list": [
         "title": "Pages",
         "url": "/admin/frontend/pages/"
-    ]
+    ],
+    "nav": []
 ])
 
-#define(toolbarRightBefore):
-    #if(modelId != nil):
-        #if(UserHasPermission("frontend.metadatas.update")):
-            <a href="/admin/frontend/metadatas/#(metadata.id)/update/">#svg("feather")</a>
-        #endif
-    #endif
-#enddefine
+#if(modelId != nil && UserHasPermission("frontend.metadatas.update")):
+    #(form.nav.append(["label": "Metadata", "link": "/admin/frontend/metadatas/" + metadata.id + "/update/"]))
+#endif
+
+
 #define(fields):
     #var(field = nil)
 

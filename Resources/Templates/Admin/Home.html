@@ -1,21 +1,20 @@
-#define(toolbarCenter):
-    Dashboard
+#define(title):
+Dashboard
 #enddefine
 
 #define(body):
-<div id="dashboard" class="m t:center">
-    <header>
-        <p>Welcome <b>#($user.email)</b>, this is your admin dashboard.</p>
-    </header>
+<header class="margin-bottom">
+    <h1 class="margin-top-zero">Dashboard</h1>
+    <p class="margin-top-zero">Welcome <b>#($user.email)</b>, this is your admin interface.</p>
+</header>
 
-    <div class="g321 g:gap:col g:gap:row">
-        #let(menus = InvokeAllHooks("admin-menu"))
-        #for(menu in menus):
+<section class="grid-321 grid-gap">
+    #for(menu in InvokeAllHooks("admin-menu")):
         #if(UserHasPermission(menu.permission) ?? true):
-        <div class="g:col1 c:background:secondary p r:xs">
-            <span>#svg(menu.icon, class: "block s64 m:h:auto c:link:secondary")</span>
-            <h3 class="m:t">#(menu.name)</h3>
-            <ul class="list:off m:zero p:zero">
+        <div class="grid-col1 background padding border-radius-s shadow-xl" style="position: relative; min-height: 144px; overflow: hidden;">
+            <span style="position: absolute; top: 2rem; right: 1.5rem;">#svg(menu.icon, class: "block size-s color-secondary")</span>
+            <h3 class="margin-bottom-s margin-top-zero">#(menu.name)</h3>
+            <ul class="list-style-off">
             #for(item in menu.items):
                 #if(UserHasPermission(item.permission) ?? true):
                 <li><a href="#(item.url)">#(item.label)</a></li>
@@ -24,9 +23,8 @@
             </ul>
         </div>
         #endif
-        #endfor
-    </div>
-</div>
+    #endfor
+</section>
 
 #enddefine
 #inline("Admin/Index")

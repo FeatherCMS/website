@@ -3,23 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    #if(head.noindex ?? metadata.status != "published"):
+
+    #if(head.noindex ?? metadata.status != "published" || $system.variables["frontend.site.noindex"] == "true"):
     <meta name="robots" content="noindex">
     #endif
     
-    <title>#(metadata.title ?? head.title ?? "") - #($system.variables["frontend.site.title"])</title>
-    <meta name="description" content="#(metadata.excerpt ?? head.description ?? "")">
+    <title>#(head.title ?? metadata.title ?? "") - #($system.variables["frontend.site.title"])</title>
+    <meta name="description" content="#(head.excerpt ?? metadata.excerpt ?? $system.variables["frontend.site.excerpt"] ?? "")">
 
     #inline("Frontend/Metatags")
 
     #inline("Frontend/Icons")
 
-    #if($app.isDebug ?? false):
-    <link rel="stylesheet" href="/css/frontend.css">
-    #else:
-    <link rel="stylesheet" href="/css/frontend.min.css">
-    #endif
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/binarybirds/peacock-css@1.0.0-beta.4/peacock.min.css">
+
+    #for(file in InvokeAllHooks("frontend-css")):
+        #if($app.isDebug ?? false):
+        <link rel="stylesheet" href="/css/#(file.name).css">
+        #else:
+        <link rel="stylesheet" href="/css/#(file.name).min.css">
+        #endif
+    #endfor
+
     <style type="text/css">
         #if($system.variables["frontend.site.font.family"] != nil):
         body {
@@ -47,24 +52,24 @@
         #(metadata.css ?? "")
     </style>
 
-    #if(metadata.canonicalUrl ?? false):
-    <link rel="canonical" href="#(head.canonicalUrl)">
+    #if(head.canonicalUrl ?? metadata.canonicalUrl ?? false):
+    <link rel="canonical" href="#(head.canonicalUrl ?? metadata.canonicalUrl ?? "")">
     #endif
 
     #if(Request(query: "page") != nil || Request(query: "search") != nil):
     <link rel="canonical" href="#($req.url.path.absoluteUrl())">
     #endif
 </head>
-<body class="m:zero">
-    <header id="header">
-        <a href="/" id="site-link">
+<body class="background">
+    <header class="padding-xs background border-bottom-xs border-color-2">
+        <a href="/" id="logo">
             <img src="#($system.variables["frontend.site.logo"].resolve() ?? "/images/logo-text.png")" alt="Logo of #($system.variables["frontend.site.title"])" title="#($system.variables["frontend.site.title"])">
         </a>
 
-        <input type="checkbox" id="menu-button" class="selection:off" />
-        <label for="menu-button" id="menu-icon" class="selection:off"><span></span></label>
+        <input type="checkbox" id="menu-button" class="selection-off" />
+        <label for="menu-button" id="menu-icon" class="selection-off"><span></span></label>
 
-        <nav id="nav">
+        <nav class="nav">
             #for(item in $frontend.menus.main.items ?? []):
             #if(UserHasPermission(item.permission) ?? true):
             <li>
@@ -77,18 +82,18 @@
         </nav>
     </header>
     
-    <main class="container">        
+    <main class="background-1" style="min-height: 25rem;">
         #body()
     </main>
     
-    <footer>
-        <section class="p:xl t:center">
+    <footer class="background border-top-xs border-color-2">
+        <section class="padding-xl text-align-center">
 
             #($system.variables["frontend.site.footer"])
 
-            <p class="t:size:s">#($system.variables["frontend.site.copy"]) &copy; #($system.variables["frontend.site.copy.prefix"] ?? "") #Date(timeStamp: Timestamp(), fixedFormat: "y")</p>
+            <p class="text-size-s">#($system.variables["frontend.site.copy"]) &copy; #($system.variables["frontend.site.copy.prefix"] ?? "") #Date(timeStamp: Timestamp(), fixedFormat: "y")</p>
 
-            <p class="t:size:s">
+            <p class="text-size-s">
                 #if($user.isAuthenticated):
                     #if(UserHasPermission("admin.module.access")):
                     <a href="/admin/">Admin</a> &middot;
@@ -112,7 +117,7 @@
 
         </section>
     </footer>
-    
+
     <script type="text/javascript">
         #evaluate(js ?? "")
         #($system.variables["frontend.site.js"] ?? "")

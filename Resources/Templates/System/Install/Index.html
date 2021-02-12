@@ -10,22 +10,25 @@
     
     <link rel="shortcut icon" href="/images/icons/favicon.ico" type="image/x-icon">
 
-    #if($app.isDebug):
-    <link rel="stylesheet" href="/css/frontend.css">
-    #else:
-    <link rel="stylesheet" href="/css/frontend.min.css">
-    #endif
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/binarybirds/peacock-css@1.0.0-beta.4/peacock.min.css">
+
+    #for(file in InvokeAllHooks("frontend-css")):
+        #if($app.isDebug ?? false):
+        <link rel="stylesheet" href="/css/#(file.name).css">
+        #else:
+        <link rel="stylesheet" href="/css/#(file.name).min.css">
+        #endif
+    #endfor
 </head>
 
-<body class="m:zero">
-
-    <header id="header" class="container">
-        <a id="site-link" href="/" style="float: none;">
-            <img src="/images/logo-text.png" alt="Logo of #($system.variables["frontend.site.title"])" title="#($system.variables["frontend.site.title"])" class="block m:h:auto">
+<body>
+    <header id="header" class="container padding-s text-align-center">
+        <a id="logo" href="/" style="float: none;">
+            <img src="/images/logo-text.png" alt="Logo of #($system.variables["frontend.site.title"])" title="#($system.variables["frontend.site.title"])">
         </a>
     </header>
 
-    <main class="container">
+    <main class="container text-align-center">
         #body()
     </main>
 </body>

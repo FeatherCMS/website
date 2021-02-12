@@ -5,23 +5,26 @@
     "js": metadata.js
 ])
 #define(body):
-<div id="posts" class="m">
+<div id="authors" class="container">
+    <div class="margin">
+        <header class="margin-bottom-xl">
+            <h1>#(head.title)</h1>
+            <p>#(head.description)</p>
+        </header>
 
-    <header class="t:center m:b:xl">
-        <h1 class="m:t">#(head.title)</h1>
-        <p>#(head.description)</p>
-    </header>
-
-    <div class="g321 g:gap:col g:gap:row:xl">
-        #for(author in authors):
-            <div class="g:col1 t:center">
-                <a href="/#(author.metadata.slug)">
-                    <img class="s128 r:circular" src="#(author.imageKey.resolve())">
-                </a>
-                <h3 class="m:t"><a href="/#(author.metadata.slug)">#(author.name)</a></h3>
-                <p>#(author.bio)</p>
-            </div>
-        #endfor
+        <section>
+            #for(author in authors):
+                <div class="margin-bottom-xl background padding border-radius-xs shadow-xl">
+                    #if(author.imageKey != nil):
+                    <a href="/#(author.metadata.slug)">
+                        <img class="size border-radius-full border border-color-6" src="#(author.imageKey.resolve())">
+                    </a>
+                    #endif
+                    <h2 class="margin-top-zero"><a href="/#(author.metadata.slug)">#(author.name)</a></h2>
+                    <p class="margin-top-zero margin-bottom">#(author.bio)</p>
+                </div>
+            #endfor
+        </section>
     </div>
 </div>
 #enddefine
